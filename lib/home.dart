@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/theme.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage(this.startQuiz, {super.key});
+
+  final void Function() startQuiz;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class HomePage extends StatelessWidget {
             image: AssetImage(
               'assets/quiz-logo.png',
             ),
+            color: Color.fromARGB(150, 210, 223, 247),
           ),
           const SizedBox(
             height: 100,
@@ -29,20 +32,18 @@ class HomePage extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          OutlinedButton(
-            onPressed: () {},
+          OutlinedButton.icon(
+            onPressed: startQuiz,
             style: OutlinedButton.styleFrom(
-              foregroundColor: primaryColor,
+              foregroundColor: Colors.white,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
               ),
             ),
-            child: Text(
-              'Start Quiz',
-              style: primaryTextStyle,
-            ),
+            icon: const Icon(Icons.arrow_right_rounded),
+            label: const Text('Start Quiz'),
           )
         ],
       ),
