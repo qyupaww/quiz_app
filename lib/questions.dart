@@ -4,16 +4,27 @@ import 'package:quiz_app/theme.dart';
 import 'package:quiz_app/data/quest.dart';
 
 class Questions extends StatefulWidget {
-  const Questions({super.key});
+  const Questions({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<Questions> createState() => _QuestionsState();
 }
 
 class _QuestionsState extends State<Questions> {
+  var currentQuestionsIndex = 0;
+
+  void answerQuestions(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
+    setState(() {
+      currentQuestionsIndex++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = quest[0];
+    final currentQuestion = quest[currentQuestionsIndex];
 
     return SizedBox(
       width: double.infinity,
@@ -35,8 +46,15 @@ class _QuestionsState extends State<Questions> {
             const SizedBox(
               height: 30,
             ),
-            ...currentQuestion.answer.map((answer) {
-              return AnswerButton(answerText: answer, onTap: () {});
+            ...currentQuestion.getShuffledAnswer().map((answer) {
+              return AnswerButton(
+                answerText: answer,
+                onTap: () {
+                  answerQuestions(
+                    answer,
+                  );
+                },
+              );
             })
           ],
         ),
